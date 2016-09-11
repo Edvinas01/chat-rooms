@@ -65,6 +65,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new ClientResources();
     }
 
+    @Bean
+    @ConfigurationProperties("github")
+    public ClientResources github() {
+        return new ClientResources();
+    }
+
     /**
      * Create single sign-on filter for multiple providers.
      */
@@ -72,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(oauthTokenFilterFactory.create(facebook()));
+        filters.add(oauthTokenFilterFactory.create(github()));
         filter.setFilters(filters);
         return filter;
     }

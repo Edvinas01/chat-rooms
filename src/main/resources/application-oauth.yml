@@ -12,3 +12,15 @@ facebook:
     client-authentication-scheme: form
   resource:
     user-info-uri: https://graph.facebook.com/me
+github:
+  details:
+    type: github
+    path: /login/github
+  client:
+    client-id: secret
+    client-secret: secret
+    access-token-uri: https://github.com/login/oauth/access_token
+    user-authorization-uri: https://github.com/login/oauth/authorize
+    client-authentication-scheme: form
+  resource:
+    user-info-uri: https://api.github.com/user
