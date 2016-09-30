@@ -1,2 +1,2 @@
-# oauth2-chat
-Chat application which uses oauth2 to authorize users.
+# spring-boot-chat
+Chat application which uses jwt's to authenticate users.
