@@ -1,2 +1,2 @@
-# spring-boot-chat
-Chat application which uses jwt's to authenticate users.
+# chat-rooms
+Spring Boot chat application which uses jwt's to authenticate users.
