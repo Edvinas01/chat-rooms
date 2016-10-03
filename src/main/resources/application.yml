@@ -1,4 +1,3 @@
-spring.profiles.include: oauth
 logging:
   level:
     com.edd.chat: debug
