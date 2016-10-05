@@ -26,12 +26,16 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
 
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+    compile 'joda-time:joda-time:2.9.4'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    // todo get a real db up and running you scrub
+    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     testCompile 'org.assertj:assertj-core:3.5.2'
 }
 

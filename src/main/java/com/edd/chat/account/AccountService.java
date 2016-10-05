@@ -3,7 +3,7 @@ package com.edd.chat.account;
 import com.edd.chat.domain.account.Account;
 import com.edd.chat.domain.account.AccountRepository;
 import com.edd.chat.exception.ChatException;
-import com.edd.chat.util.AuthUtils;
+import com.edd.chat.security.AuthUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

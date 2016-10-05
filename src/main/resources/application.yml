@@ -1,4 +1,9 @@
 logging:
   level:
     com.edd.chat: debug
-spring.data.mongodb.port: 0
+
+auth:
+  token:
+    secret: secret
+    # Token expiration in hours
+    expiration: 24

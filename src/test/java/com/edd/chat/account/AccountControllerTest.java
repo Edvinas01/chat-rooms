@@ -1,9 +1,11 @@
 package com.edd.chat.account;
 
 import com.edd.chat.domain.account.Account;
-import com.edd.chat.domain.account.AccountModel;
 import com.edd.chat.exception.ChatException;
 import com.edd.chat.exception.GlobalExceptionHandler;
+import com.edd.chat.token.Credentials;
+import com.edd.chat.token.Token;
+import com.edd.chat.token.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -27,6 +31,9 @@ public class AccountControllerTest {
     @Mock
     private AccountService accountService;
 
+    @Mock
+    private TokenService tokenService;
+
     private ObjectMapper objectMapper;
     private Account account;
     private MockMvc mockMvc;
@@ -38,28 +45,28 @@ public class AccountControllerTest {
         account.setRole(Account.Role.ROLE_USER);
 
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new AccountController(accountService))
+                .standaloneSetup(new AccountController(accountService, tokenService))
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
     }
 
     @Test
-    public void invalidCredentials() throws Exception {
-        HttpStatus code = HttpStatus.BAD_REQUEST;
-        String message = "bad";
+    public void authenticate() throws Exception {
+        Token token = new Token("abc", new Date());
 
-        when(accountService.register(any(Account.class)))
-                .thenThrow(new ChatException(message, code));
+        when(tokenService.createToken(any(Credentials.class)))
+                .thenReturn(token);
 
-        mockMvc.perform(post("/accounts")
-                .content(objectMapper.writeValueAsString(new AccountModel(null, null, null, null)))
+        mockMvc.perform(post("/api/v1/accounts/authenticate")
+                .content(objectMapper.writeValueAsString(new Credentials("test", "password")))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(code.value()))
-                .andExpect(jsonPath("$.error").value(message));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value(token.getToken()))
+                .andExpect(jsonPath("$.expires").value(token.getExpires().getTime()));
     }
 
     @Test
-    public void createAccount() throws Exception {
+    public void registerAccount() throws Exception {
         AccountModel model = new AccountModel(
                 account.getUsername(),
                 account.getPassword(),
@@ -68,7 +75,7 @@ public class AccountControllerTest {
         when(accountService.register(any(Account.class)))
                 .thenReturn(account);
 
-        mockMvc.perform(post("/accounts")
+        mockMvc.perform(post("/api/v1/accounts/register")
                 .content(objectMapper.writeValueAsString(model))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -76,5 +83,20 @@ public class AccountControllerTest {
                 .andExpect(jsonPath("$.role").value(account.getRole().name()))
                 .andExpect(jsonPath("$.username").value(account.getUsername()))
                 .andExpect(jsonPath("$.password").doesNotExist());
+    }
+
+    @Test
+    public void invalidRegistrationCredentials() throws Exception {
+        HttpStatus code = HttpStatus.BAD_REQUEST;
+        String message = "bad";
+
+        when(accountService.register(any(Account.class)))
+                .thenThrow(new ChatException(message, code));
+
+        mockMvc.perform(post("/api/v1/accounts/register")
+                .content(objectMapper.writeValueAsString(new AccountModel(null, null, null, null)))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(code.value()))
+                .andExpect(jsonPath("$.error").value(message));
     }
 }

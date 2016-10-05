@@ -8,12 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 @SpringBootTest
@@ -36,6 +38,7 @@ public class AccountServiceIntegrationTest {
     @After
     public void tearDown() {
         accountRepository.deleteAll();
+        SecurityContextHolder.clearContext();
     }
 
     @Test
@@ -66,7 +69,20 @@ public class AccountServiceIntegrationTest {
     }
 
     @Test
-    public void invalidCredentials() {
+    public void getAuthenticatedAccount() {
+        Account account = accountService
+                .register(new Account("test", "password", null));
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(new UsernamePasswordAuthenticationToken(account, null, account.getAuthorities()));
+
+        assertThat(accountService.getAccount().getId())
+                .isEqualTo(account.getId());
+    }
+
+    @Test
+    public void invalidRegistrationCredentials() {
         assertThatThrownBy(() -> accountService.register(new Account("", "", null)))
                 .isInstanceOf(ChatException.class);
     }
