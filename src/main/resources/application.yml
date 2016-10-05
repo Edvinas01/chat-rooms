@@ -1,3 +1,4 @@
 logging:
   level:
     com.edd.chat: debug
+spring.data.mongodb.port: 0
