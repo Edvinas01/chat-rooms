@@ -13,7 +13,6 @@ cache:
 after_success:
   # Upload coveralls stats also when we're not on coverity branch.
   - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew cobertura coveralls ; fi
-  - cat cov-int/build-log.txt
 notifications:
   email:
     on_success: change
