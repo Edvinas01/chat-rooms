@@ -1,12 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
-before_install:
+before_script:
   - cd server
   - chmod +x gradlew
 script:
-  - cd server
-  - ./gradlew check
+  - ./gradlew wrapper
 cache:
   directories:
   - ~/.gradle
