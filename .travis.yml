@@ -30,5 +30,5 @@ addons:
       description: Build submitted via Travis CI
     notification_email: edvinas108@gmail.com
     build_command_prepend: ""
-    build_command:   ./gradlew build
+    build_command: ./gradlew build
     branch_pattern: coverity
