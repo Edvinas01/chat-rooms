@@ -1,0 +1,6 @@
+.idea/
+gradle/
+build/
+logs/
+out/
+application-oauth.yml
