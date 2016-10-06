@@ -14,3 +14,18 @@ after_success:
 notifications:
   email:
     on_success: change
+
+env:
+  global:
+    - secure: "KC1IfWUPYIGONfY7/wfaO0MJcKezU4+FdEsu+/DuQ9nL0Kz/49E4dznMSAm/bm61t9TmqKAIBjMWp+9TD+2Hxgc1Na/vu8OcwCLQpuDa20gltr/jTBt0jpPVNpDT9P+AcMUqQ6hRxBVh2/fqG7QvdrfD7QKq10iJ5A3jfrqonsuyFj+MGn7dX0B5C3wEiX5h4rfE5mdZdPIK0OUO8UxTrZpm41nCiHx8tpWzyoI+UEpS+iHbB9jgB4X6dWbovjkrVMvHc3LwLMRfl2AszCAmW01YPUpIolXNyyvo+IK5vTFjzJcVvchs5GO7E8DQl3A96wA5nxhovnAnc34SwcXLTTRjU0XDh9wtxmv/E9Ab9JIG8eZVi8Goo7vs2WNdsHP8w0pAQ/oKdjIPnCqFWBn/1ynCNjw/iYkXQiUPUc2QOT6+piEj+LrbVVKUYfM9fwwsRjkZk/HRuw9w4Ix98PUgu48uGoPOarmQY/0aVK/B5reUsrnmnT+dHTChdr1fMUW2J3JjMMhhkXvpkvVjy/00oSbqnRmjvFIfHC4klIUOdIIJnxEdIWnP22khM2HW7p7qDjxglt3D4IHZVUEHN6Y8m4guQO+vYHj75Xv54BDwZad3UKHNsL9gSmoJvAiTqj0HUYCYAmsPhPTF8LWwcpdkLF4RriuQ90RRBVDexhn0Mb0="
+before_install:
+    - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+addons:
+  coverity_scan:
+    project:
+      name: "Edvinas01/chat-rooms"
+      description: "Build submitted via Travis CI"
+    notification_email: edvinas108@gmail.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
