@@ -5,7 +5,7 @@ before_script:
   - cd server
   - chmod +x gradlew
 script:
-  - ./gradlew wrapper
+  - ./gradlew check
 cache:
   directories:
   - ~/.gradle
