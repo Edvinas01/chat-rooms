@@ -13,6 +13,7 @@ cache:
 after_success:
   # Upload coveralls stats also when we're not on coverity branch.
   - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew cobertura coveralls ; fi
+  - cat cov-int/build-log.txt
 notifications:
   email:
     on_success: change
@@ -22,7 +23,6 @@ env:
     - secure: "ZVjOV33nVIUC8ftmV9qGjnAq+JgI2ca809KXCz7RZmfCRDOO61rcwB+mVnmnPKW/INWU5SmRLKjGcNPNzv8Mcoprz/yUS7ynepIgFt07WGkhGP9euB7E+RDiTpO3Jb4E0+cpUZnpI/pwoQoPw5uiHTj4WjqXXRSd9l1TJ8pun+pa3Pe/iXvF2Ip3/L8ofjLN8SlETHsPTTthin89F09JZhTCEVkn9lNHXStve13Sz42nHz5Fb7S4T8nv13ZgrTh1/b/5Zt9GIm71zxlFC+AM8ph/Dx3B6koYU9O2CjeIHJwtuJVib4xt4v583IHnqvqGL69H8Zx6ETCHOOQpDLssDuOUqxsVC/aIbMiEzzJnTC4bRzQ8nyOnrTkYOVIV313at3zNbeL7fbA2Kx6LF/8mDs+xOaTvh8JQayjldq7/kiXpwxjyH8ha1RDlBiDUDfHVxX0/YK35yLzCzJlGr5KcM8BPMvRmiVBnlvIeCevRzcEgWyWC0NSjoT2Bnkt5FgLOQI55Q+/yz3kC0qtpWt7pSK9j5WOc3cIS7MqoTLFOV2lJggI+Btp7fbIQoCfQ0JUuwLnSZMo+em0qAj1XmkTQWtgOiIkJ/U8tobtyJQnws43gnsKW+sSQZkrJxlRDJXDltxizJejsDMtpfCOyKCaKIVUq8BAmGt06FNDc4d89wec="
 before_install:
   - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-  - cat cov-int/build-log.txt
 addons:
   coverity_scan:
     project:
