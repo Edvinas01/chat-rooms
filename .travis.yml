@@ -5,12 +5,15 @@ before_script:
   - cd server
   - chmod +x gradlew
 script:
+  # Only normal build with checks, if this is not coverity branch.
   - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew check ; fi
 cache:
   directories:
   - ~/.gradle
 after_success:
-  - ./gradlew cobertura coveralls
+  # Upload coveralls stats also when we're not on coverity branch.
+  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew cobertura coveralls ; fi
+  - cat cov-int/build-log.txt
 notifications:
   email:
     on_success: change
@@ -23,9 +26,9 @@ before_install:
 addons:
   coverity_scan:
     project:
-      name: "Edvinas01/chat-rooms"
-      description: "Build submitted via Travis CI"
+      name: Edvinas01/chat-rooms
+      description: Build submitted via Travis CI
     notification_email: edvinas108@gmail.com
     build_command_prepend: ""
-    build_command:   "./gradlew build"
+    build_command:   ./gradlew build
     branch_pattern: coverity
