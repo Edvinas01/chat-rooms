@@ -26,6 +26,6 @@ addons:
       name: "Edvinas01/chat-rooms"
       description: "Build submitted via Travis CI"
     notification_email: edvinas108@gmail.com
-    build_command_prepend: ""
-    build_command:   "./gradlew build"
+    build_command_prepend: .configure
+    build_command:   ./gradlew build
     branch_pattern: coverity
