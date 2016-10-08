@@ -7,7 +7,7 @@ before_script:
 script:
   # Run tests when not on coverity branch.
   - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then
-      ./gradlew check
+      ./gradlew check;
     fi
 cache:
   directories:
@@ -15,7 +15,7 @@ cache:
 after_success:
   # Upload coveralls when not on coverity branch.
   - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then
-      ./gradlew cobertura coveralls
+      ./gradlew cobertura coveralls;
     fi
 notifications:
   email:
