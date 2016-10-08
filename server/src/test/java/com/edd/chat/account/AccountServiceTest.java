@@ -51,9 +51,6 @@ public class AccountServiceTest {
 
         when(accountRepository.save(any(Account.class)))
                 .then(returnsFirstArg());
-
-        when(passwordEncoder.matches(PASSWORD, PASSWORD))
-                .thenReturn(true);
     }
 
     @After

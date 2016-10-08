@@ -7,4 +7,4 @@ auth:
     # Token expiration in hours
     expiration: 24
 server:
-  port: 1000
+  port: 10000
