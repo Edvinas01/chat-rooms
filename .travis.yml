@@ -5,14 +5,18 @@ before_script:
   - cd server
   - chmod +x gradlew
 script:
-  # Only normal build with checks, if this is not coverity branch.
-  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew check ; fi
+  # Run tests when not on coverity branch.
+  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then
+      ./gradlew check
+    fi
 cache:
   directories:
   - ~/.gradle
 after_success:
-  # Upload coveralls stats also when we're not on coverity branch.
-  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then ./gradlew cobertura coveralls ; fi
+  # Upload coveralls when not on coverity branch.
+  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then
+      ./gradlew cobertura coveralls
+    fi
 notifications:
   email:
     on_success: change
