@@ -1,6 +1,5 @@
 package com.edd.chat.account;
 
-import com.edd.chat.domain.account.Account;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

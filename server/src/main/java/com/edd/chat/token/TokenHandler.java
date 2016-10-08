@@ -1,6 +1,6 @@
 package com.edd.chat.token;
 
-import com.edd.chat.domain.account.Account;
+import com.edd.chat.account.Account;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

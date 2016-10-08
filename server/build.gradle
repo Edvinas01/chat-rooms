@@ -41,9 +41,11 @@ dependencies {
     compile 'io.jsonwebtoken:jjwt:0.7.0'
     compile 'joda-time:joda-time:2.9.4'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
     // todo get a real db up and running you scrub
     compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'io.rest-assured:rest-assured:3.0.1'
     testCompile 'org.assertj:assertj-core:3.5.2'
 }
 

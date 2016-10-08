@@ -6,6 +6,7 @@ import com.edd.chat.token.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,9 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
             .authorizeRequests()
-                .antMatchers(
-                        "/api/v1/accounts/authenticate",
-                        "/api/v1/accounts/register")
+                .antMatchers("/api/v1/accounts/auth") // Authenticate.
+                    .permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/accounts") // Register new account.
                     .permitAll()
                 .anyRequest()
                     .authenticated();

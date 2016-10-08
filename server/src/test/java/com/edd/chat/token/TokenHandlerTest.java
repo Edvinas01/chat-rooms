@@ -1,6 +1,6 @@
 package com.edd.chat.token;
 
-import com.edd.chat.domain.account.Account;
+import com.edd.chat.account.Account;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

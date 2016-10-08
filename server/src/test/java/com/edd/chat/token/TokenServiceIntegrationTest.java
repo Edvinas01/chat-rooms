@@ -1,8 +1,8 @@
 package com.edd.chat.token;
 
 import com.edd.chat.account.AccountService;
-import com.edd.chat.domain.account.Account;
-import com.edd.chat.domain.account.AccountRepository;
+import com.edd.chat.account.Account;
+import com.edd.chat.account.AccountRepository;
 import com.edd.chat.exception.ChatException;
 import org.junit.After;
 import org.junit.Before;

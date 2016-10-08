@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 /**
- * Jwt model with some adittional details.
+ * Jwt model with some additional details.
  */
 public final class Token {
 
