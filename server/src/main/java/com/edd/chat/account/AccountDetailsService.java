@@ -1,6 +1,5 @@
 package com.edd.chat.account;
 
-import com.edd.chat.domain.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

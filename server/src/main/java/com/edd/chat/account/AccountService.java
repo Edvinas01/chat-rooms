@@ -1,7 +1,5 @@
 package com.edd.chat.account;
 
-import com.edd.chat.domain.account.Account;
-import com.edd.chat.domain.account.AccountRepository;
 import com.edd.chat.exception.ChatException;
 import com.edd.chat.security.AuthUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,11 +33,9 @@ public class AccountService {
      * @return account details.
      */
     public Account getAccount() {
-        Account account = accountRepository.findOne(AuthUtils.getId());
-        if (account == null) {
-            throw new ChatException("Not authenticated", HttpStatus.UNAUTHORIZED);
-        }
-        return account;
+        return accountRepository
+                .findByInternalUsername(AuthUtils.getUsername())
+                .orElseThrow(() -> new ChatException("Not authenticated", HttpStatus.UNAUTHORIZED));
     }
 
     /**
@@ -65,12 +61,13 @@ public class AccountService {
 
         account.setRole(Account.Role.ROLE_USER);
 
-        LOGGER.debug("Registering new account with internal username: {}", internalUsername);
+        LOGGER.debug("Registering new account with username: {}", internalUsername);
 
         try {
             return accountRepository.save(account);
         } catch (DuplicateKeyException e) {
-            LOGGER.error("Could not create account", e);
+            LOGGER.error("Could not create account: {}",
+                    e.getMostSpecificCause().getMessage());
 
             throw new ChatException("Invalid username", HttpStatus.BAD_REQUEST);
         }

@@ -27,13 +27,13 @@ public class AccountController {
         return AccountModel.create(accountService.getAccount());
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public Token authenticate(@RequestBody Credentials details) {
         return tokenService.createToken(details);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public AccountModel register(@RequestBody AccountModel details) {
         return AccountModel.create(accountService
                 .register(details.toAccount()));

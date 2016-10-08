@@ -1,43 +1,43 @@
 package com.edd.chat.token;
 
-import com.edd.chat.domain.account.Account;
+import com.edd.chat.account.Account;
+import com.edd.chat.test.AccountFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static com.edd.chat.test.AccountFactory.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class TokenHandlerTest {
 
-    private static final String USERNAME = "test";
-
-    @Mock
-    private Account account;
+    private static final String SECRET = "secret";
+    private static final int EXPIRATION = 1;
 
     private TokenHandler tokenHandler;
+    private Account account;
 
     @Before
     public void setUp() {
-        tokenHandler = new TokenHandler("secret", 1);
-        when(account.getInternalUsername()).thenReturn(USERNAME);
+        tokenHandler = new TokenHandler(SECRET, EXPIRATION);
+        account = AccountFactory.create();
     }
 
     @Test
     public void createTokenAndParseUsername() {
-        String token = tokenHandler.createToken(account)
+        String token = tokenHandler
+                .createToken(account)
                 .getToken();
 
-        assertThat(tokenHandler.parseUsername(token).get())
+        assertThat(tokenHandler.parseUsername("Bearer " + token).get())
                 .isEqualTo(USERNAME);
     }
 
     @Test
-    public void unableToParseUsername() {
+    public void parseUsernameInvalidToken() {
         assertThat(tokenHandler.parseUsername("abc")).isEmpty();
     }
 }

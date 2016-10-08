@@ -1,4 +1,4 @@
-package com.edd.chat.domain.account;
+package com.edd.chat.account;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

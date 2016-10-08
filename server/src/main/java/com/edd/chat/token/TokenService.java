@@ -1,7 +1,7 @@
 package com.edd.chat.token;
 
-import com.edd.chat.domain.account.Account;
-import com.edd.chat.domain.account.AccountRepository;
+import com.edd.chat.account.Account;
+import com.edd.chat.account.AccountRepository;
 import com.edd.chat.exception.ChatException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class TokenService {
      * Create token from provided credentials.
      *
      * @param credentials credentials used when creating token.
-     * @return jwt with adittional details.
+     * @return jwt with additional details.
      */
     public Token createToken(Credentials credentials) {
         if (StringUtils.isAnyBlank(credentials.getPassword(),
