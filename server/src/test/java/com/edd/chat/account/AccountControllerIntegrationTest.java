@@ -1,5 +1,6 @@
 package com.edd.chat.account;
 
+import com.edd.chat.ChatIntegrationTest;
 import com.edd.chat.test.AccountFactory;
 import com.edd.chat.token.TokenHandler;
 import io.restassured.builder.RequestSpecBuilder;
@@ -11,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,9 +22,8 @@ import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@ChatIntegrationTest
 @RunWith(SpringRunner.class)
-@SuppressWarnings("OptionalGetWithoutIsPresent")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class AccountControllerIntegrationTest {
 
     @Autowired

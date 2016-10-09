@@ -9,3 +9,10 @@ auth:
 server:
   port: 10000
 spring.data.mongodb.uri: mongodb://10.10.30.30:27017/test
+
+---
+
+# Use embedded mongodb configuration in tests.
+spring:
+  profiles: test
+  data.mongodb.uri: mongodb://localhost/test
