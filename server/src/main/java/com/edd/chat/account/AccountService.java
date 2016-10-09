@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AccountService {
 
@@ -71,5 +73,14 @@ public class AccountService {
 
             throw new ChatException("Invalid username", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Changes currently authenticated accounts token version to a new one.
+     */
+    public void logout() {
+        Account account = getAccount();
+        account.setTokenVersion(UUID.randomUUID());
+        accountRepository.save(account);
     }
 }

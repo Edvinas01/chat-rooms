@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.edd.chat.test.AccountFactory.USERNAME;
+import static com.edd.chat.test.AccountFactory.VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,12 +33,13 @@ public class TokenHandlerTest {
                 .createToken(account)
                 .getToken();
 
-        assertThat(tokenHandler.parseUsername("Bearer " + token).get())
-                .isEqualTo(USERNAME);
+        DecodedToken decoded = tokenHandler.parse("Bearer " + token).get();
+        assertThat(decoded.getUsername()).isEqualTo(USERNAME);
+        assertThat(decoded.getVersion()).isEqualTo(VERSION);
     }
 
     @Test
     public void parseUsernameInvalidToken() {
-        assertThat(tokenHandler.parseUsername("abc")).isEmpty();
+        assertThat(tokenHandler.parse("abc")).isEmpty();
     }
 }

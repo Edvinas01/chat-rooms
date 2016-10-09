@@ -8,14 +8,14 @@ import java.util.Date;
 /**
  * Jwt model with some additional details.
  */
-public final class Token {
+public final class TokenDetails {
 
     private final String token;
     private final Date expires;
 
     @JsonCreator
-    public Token(@JsonProperty("token") String token,
-                 @JsonProperty("expires") Date expires) {
+    public TokenDetails(@JsonProperty("token") String token,
+                        @JsonProperty("expires") Date expires) {
 
         this.token = token;
         this.expires = expires;

@@ -2,7 +2,7 @@ package com.edd.chat.account;
 
 import com.edd.chat.token.Credentials;
 import com.edd.chat.token.TokenService;
-import com.edd.chat.token.Token;
+import com.edd.chat.token.TokenDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,14 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public Token authenticate(@RequestBody Credentials details) {
+    public TokenDetails authenticate(@RequestBody Credentials details) {
         return tokenService.createToken(details);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public void logout() {
+        accountService.logout();
     }
 
     @ResponseStatus(HttpStatus.CREATED)

@@ -72,7 +72,7 @@ public class TokenServiceTest {
 
     @Test
     public void createToken() {
-        Token token = service.createToken(credentials);
+        TokenDetails token = service.createToken(credentials);
         assertThat(token.getExpires()).isNotNull();
         assertThat(token.getToken()).isNotNull();
     }

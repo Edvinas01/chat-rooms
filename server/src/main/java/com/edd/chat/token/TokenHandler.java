@@ -1,6 +1,7 @@
 package com.edd.chat.token;
 
 import com.edd.chat.account.Account;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Helps jwt handling.
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class TokenHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenHandler.class);
+    private static final String VERSION = "version";
     private static final String BEARER = "Bearer";
 
     private final String secret;
@@ -41,28 +44,34 @@ public class TokenHandler {
      * @param account account whose details to use.
      * @return token with some additional details added.
      */
-    public Token createToken(Account account) {
+    public TokenDetails createToken(Account account) {
         Date expires = DateTime
                 .now()
                 .plusHours(expiration)
                 .toDate();
 
-        String value = Jwts.builder()
-                .setSubject(account.getInternalUsername())
+        Claims claims = Jwts.claims()
+                .setIssuedAt(new Date())
                 .setExpiration(expires)
+                .setSubject(account.getInternalUsername());
+
+        claims.put(VERSION, account.getTokenVersion());
+
+        String value = Jwts.builder()
+                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
 
-        return new Token(value, expires);
+        return new TokenDetails(value, expires);
     }
 
     /**
-     * Parse internal username from provided jwt.
+     * Parse token details from provided jwt.
      *
      * @param rawToken raw jwt, can contain {@value BEARER} at the start of it.
-     * @return internal username optional.
+     * @return decoded token details optional.
      */
-    public Optional<String> parseUsername(String rawToken) {
+    public Optional<DecodedToken> parse(String rawToken) {
         if (StringUtils.isBlank(rawToken)) {
             return Optional.empty();
         }
@@ -71,11 +80,15 @@ public class TokenHandler {
                 .replaceFirst(BEARER, "");
 
         try {
-            return Optional.of(Jwts.parser()
+            Claims claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject());
+                    .getBody();
+
+            DecodedToken decodedToken = new DecodedToken(claims.getSubject(),
+                    UUID.fromString(claims.get(VERSION, String.class)));
+
+            return Optional.of(decodedToken);
 
         } catch (JwtException e) {
             LOGGER.error("Could not parse token: {}", token, e);

@@ -16,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -86,7 +88,6 @@ public class AccountControllerIntegrationTest {
 
     @Test
     public void authenticateSuccessfully() throws Exception {
-
         JSONObject json = new JSONObject();
         json.put("username", account.getUsername());
         json.put("password", AccountFactory.PASSWORD);
@@ -105,8 +106,9 @@ public class AccountControllerIntegrationTest {
         //@formatter:on
 
         String username = tokenHandler
-                .parseUsername(token)
-                .get();
+                .parse(token)
+                .get()
+                .getUsername();
 
         assertThat(username).isEqualTo(account.getUsername());
     }
@@ -146,6 +148,50 @@ public class AccountControllerIntegrationTest {
             .post()
         .then()
             .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("error", isA(String.class));
+        //@formatter:on
+    }
+
+    @Test
+    public void logoutAndGetAccount() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("username", account.getUsername());
+        json.put("password", AccountFactory.PASSWORD);
+
+        UUID old = account.getTokenVersion();
+
+        //@formatter:off
+        String token = given()
+            .body(json.toString())
+            .post("/auth")
+            .path("token");
+
+        given()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+            .post("/logout")
+        .then()
+            .statusCode(HttpStatus.NO_CONTENT.value());
+
+        // Check if token is really invalid.
+        given()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+            .get()
+        .then()
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
+            .body("error", isA(String.class));
+        //@formatter:on
+
+        assertThat(accountRepository.findOne(account.getId()).getTokenVersion())
+                .isNotEqualTo(old);
+    }
+
+    @Test
+    public void logoutUnauthorized() throws Exception {
+        //@formatter:off
+        given()
+            .post("/logout")
+        .then()
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
             .body("error", isA(String.class));
         //@formatter:on
     }

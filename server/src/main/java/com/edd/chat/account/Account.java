@@ -8,8 +8,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.UUID;
 
-@Document
+@Document(collection = "accounts")
 public class Account implements UserDetails {
 
     public enum Role {
@@ -28,6 +29,8 @@ public class Account implements UserDetails {
 
     private boolean enabled;
     private Role role;
+
+    private UUID tokenVersion = UUID.randomUUID();
 
     public Account(String username, String password, String internalUsername) {
         this.username = username;
@@ -49,6 +52,14 @@ public class Account implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public UUID getTokenVersion() {
+        return tokenVersion;
+    }
+
+    public void setTokenVersion(UUID tokenVersion) {
+        this.tokenVersion = tokenVersion;
     }
 
     @Override

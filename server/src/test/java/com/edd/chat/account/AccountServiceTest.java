@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.edd.chat.test.AccountFactory.PASSWORD;
 import static com.edd.chat.test.AccountFactory.USERNAME;
@@ -60,8 +61,7 @@ public class AccountServiceTest {
 
     @Test
     public void getAccount() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(account, null, account.getAuthorities()));
+        authenticate();
 
         assertThat(service.getAccount())
                 .isEqualTo(account);
@@ -107,5 +107,27 @@ public class AccountServiceTest {
                 .build();
 
         service.register(account);
+    }
+
+    @Test
+    public void logout() {
+        authenticate();
+
+        UUID old = account.getTokenVersion();
+        service.logout();
+        assertThat(service.getAccount().getTokenVersion()).isNotEqualTo(old);
+    }
+
+    @Test(expected = ChatException.class)
+    public void logoutNotAuthenticated() {
+        service.logout();
+    }
+
+    /**
+     * Puts test account into authentication context.
+     */
+    private void authenticate() {
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(account, null, account.getAuthorities()));
     }
 }

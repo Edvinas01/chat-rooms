@@ -1,5 +1,6 @@
 package com.edd.chat.security;
 
+import com.edd.chat.account.Account;
 import com.edd.chat.token.TokenHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,15 +37,24 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             tokenHandler
-                    .parseUsername(request.getHeader(HttpHeaders.AUTHORIZATION))
-                    .map(userDetailsService::loadUserByUsername)
+                    .parse(request.getHeader(HttpHeaders.AUTHORIZATION))
+                    .map(t -> {
+                        Account account = (Account) userDetailsService
+                                .loadUserByUsername(t.getUsername());
+
+                        // When user logs out the token version should change,
+                        // so old tokens become invalid.
+                        if (account.getTokenVersion().equals(t.getVersion())) {
+                            return account;
+                        }
+                        return null;
+                    })
                     // If token is parsed and such user exists, create authentication.
                     .ifPresent(u -> {
                         // todo need mechanism to enable/disable accounts.
 //                        if (!u.isEnabled()) {
 //                            return;
 //                        }
-
                         UsernamePasswordAuthenticationToken authentication =
                                 new UsernamePasswordAuthenticationToken(u, null, u.getAuthorities());
 

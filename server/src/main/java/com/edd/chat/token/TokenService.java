@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Creates authentication tokens for accounts.
+ */
 @Service
 public class TokenService {
 
@@ -36,7 +39,7 @@ public class TokenService {
      * @param credentials credentials used when creating token.
      * @return jwt with additional details.
      */
-    public Token createToken(Credentials credentials) {
+    public TokenDetails createToken(Credentials credentials) {
         if (StringUtils.isAnyBlank(credentials.getPassword(),
                 credentials.getUsername())) {
 

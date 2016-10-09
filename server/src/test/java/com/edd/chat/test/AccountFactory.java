@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Creates user accounts used for testing.
  */
@@ -26,6 +28,11 @@ public class AccountFactory {
      */
     public static final String PASSWORD = "password";
 
+    /**
+     * Account token version.
+     */
+    public static final UUID VERSION = UUID.randomUUID();
+
     @Autowired
     public AccountFactory(AccountRepository accountRepository,
                           PasswordEncoder passwordEncoder) {
@@ -42,6 +49,7 @@ public class AccountFactory {
     public Account register() {
         Account account = create(USERNAME)
                 .password(passwordEncoder.encode(PASSWORD))
+                .tokenVersion(VERSION)
                 .enabled()
                 .build();
 
@@ -57,6 +65,7 @@ public class AccountFactory {
     public static Account create() {
         return create(USERNAME)
                 .password(PASSWORD)
+                .tokenVersion(VERSION)
                 .enabled()
                 .build();
     }
@@ -77,6 +86,7 @@ public class AccountFactory {
         private String password;
         private boolean enabled;
         private Account.Role role = Account.Role.ROLE_USER;
+        private UUID tokenVersion = UUID.randomUUID();
 
         private AccountBuilder(String username) {
             this.username = username;
@@ -92,6 +102,11 @@ public class AccountFactory {
             return this;
         }
 
+        public AccountBuilder tokenVersion(UUID tokenVersion) {
+            this.tokenVersion = tokenVersion;
+            return this;
+        }
+
         public AccountBuilder role(Account.Role role) {
             this.role = role;
             return this;
@@ -102,6 +117,7 @@ public class AccountFactory {
                     StringUtils.trim(StringUtils.lowerCase(username)));
 
             // account.setEnabled(enabled);
+            account.setTokenVersion(tokenVersion);
             account.setRole(role);
             return account;
         }
