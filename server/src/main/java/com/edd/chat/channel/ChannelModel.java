@@ -11,9 +11,9 @@ public final class ChannelModel {
     private final int commentCount;
 
     @JsonCreator
-    public ChannelModel(@JsonProperty("id") String id,
-                        @JsonProperty("name") String name,
-                        @JsonProperty("commentCount") int commentCount) {
+    private ChannelModel(@JsonProperty("id") String id,
+                         @JsonProperty("name") String name,
+                         @JsonProperty("commentCount") int commentCount) {
 
         this.id = id;
         this.name = name;

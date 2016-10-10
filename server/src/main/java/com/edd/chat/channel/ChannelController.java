@@ -27,16 +27,6 @@ public class ChannelController {
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
-    public List<CommentModel> getComments(@PathVariable String id,
-                                          @RequestParam(defaultValue = "100") int count) {
-
-        return channelService.getComments(id, count)
-                .stream()
-                .map(CommentModel::create)
-                .collect(Collectors.toList());
-    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST)
     public CommentModel comment(@PathVariable String id,
@@ -44,5 +34,15 @@ public class ChannelController {
 
         return CommentModel.create(channelService
                 .comment(id, comment.toComment()));
+    }
+
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
+    public List<CommentModel> getComments(@PathVariable String id,
+                                          @RequestParam int count) {
+
+        return channelService.getComments(id, count)
+                .stream()
+                .map(CommentModel::create)
+                .collect(Collectors.toList());
     }
 }

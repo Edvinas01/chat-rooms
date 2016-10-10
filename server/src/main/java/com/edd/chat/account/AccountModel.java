@@ -14,10 +14,10 @@ public final class AccountModel {
     private final Account.Role role;
 
     @JsonCreator
-    public AccountModel(@JsonProperty("username") String username,
-                        @JsonProperty("password") String password,
-                        @JsonProperty("id") String id,
-                        @JsonProperty("role") Account.Role role) {
+    private AccountModel(@JsonProperty("username") String username,
+                         @JsonProperty("password") String password,
+                         @JsonProperty("id") String id,
+                         @JsonProperty("role") Account.Role role) {
 
         this.username = username;
         this.password = password;

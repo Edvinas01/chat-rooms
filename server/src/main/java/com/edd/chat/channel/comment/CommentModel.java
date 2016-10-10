@@ -12,9 +12,9 @@ public final class CommentModel {
     private final Date sentOn;
 
     @JsonCreator
-    public CommentModel(@JsonProperty("username") String username,
-                        @JsonProperty("message") String message,
-                        @JsonProperty("sentOn") Date sentOn) {
+    private CommentModel(@JsonProperty("username") String username,
+                         @JsonProperty("message") String message,
+                         @JsonProperty("sentOn") Date sentOn) {
 
         this.username = username;
         this.message = message;

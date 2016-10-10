@@ -45,10 +45,9 @@ public class ChannelService {
      * Initialize main channel.
      */
     @PostConstruct
-    public void init() {
-        if (!channelRepository.findByName(mainChannel).isPresent()) {
-            createChannel(mainChannel);
-        }
+    public Channel init() {
+        return channelRepository.findByName(mainChannel)
+                .orElseGet(() -> createChannel(mainChannel));
     }
 
     /**

@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 
 @ChatIntegrationTest
 @RunWith(SpringRunner.class)
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class AccountControllerIntegrationTest {
 
     @Autowired
