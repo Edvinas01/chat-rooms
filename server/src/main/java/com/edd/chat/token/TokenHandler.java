@@ -31,8 +31,8 @@ public class TokenHandler {
     private final int expiration;
 
     @Autowired
-    public TokenHandler(@Value("${auth.token.secret}") String secret,
-                        @Value("${auth.token.expiration}") int expiration) {
+    public TokenHandler(@Value("${chat.auth.token.secret}") String secret,
+                        @Value("${chat.auth.token.expiration}") int expiration) {
 
         this.secret = secret;
         this.expiration = expiration;

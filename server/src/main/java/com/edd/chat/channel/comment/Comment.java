@@ -1,4 +1,4 @@
-package com.edd.chat.comment;
+package com.edd.chat.channel.comment;
 
 import com.edd.chat.account.Account;
 import org.springframework.data.mongodb.core.mapping.DBRef;

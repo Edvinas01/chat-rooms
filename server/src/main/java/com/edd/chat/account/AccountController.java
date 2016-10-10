@@ -1,6 +1,5 @@
 package com.edd.chat.account;
 
-import com.edd.chat.comment.CommentService;
 import com.edd.chat.token.Credentials;
 import com.edd.chat.token.TokenService;
 import com.edd.chat.token.TokenDetails;
@@ -13,21 +12,18 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
-    private final CommentService commentService;
     private final TokenService tokenService;
 
     @Autowired
     public AccountController(AccountService accountService,
-                             CommentService commentService, TokenService tokenService) {
+                             TokenService tokenService) {
 
         this.accountService = accountService;
-        this.commentService = commentService;
         this.tokenService = tokenService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public AccountModel profile() {
-        commentService.dummyComment();
         return AccountModel.create(accountService.getAccount());
     }
 

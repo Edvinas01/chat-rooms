@@ -1,14 +1,19 @@
 logging:
   level:
     com.edd.chat: debug
-auth:
-  token:
-    secret: secret
-    # Token expiration in hours
-    expiration: 24
 server:
   port: 10000
 spring.data.mongodb.uri: mongodb://10.10.30.30:27017/test
+
+# App specific configuration.
+chat:
+  auth:
+    token:
+      secret: secret
+      # Token expiration in hours
+      expiration: 24
+  max.comments: 1000
+  channels.main: General
 
 ---
 

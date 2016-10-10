@@ -1,6 +1,6 @@
-package com.edd.chat.comment.channel;
+package com.edd.chat.channel;
 
-import com.edd.chat.comment.Comment;
+import com.edd.chat.channel.comment.Comment;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
