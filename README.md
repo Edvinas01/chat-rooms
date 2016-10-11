@@ -9,7 +9,9 @@ First navigate to the [server](server) directory and run
 ```
 ./gradlew bootRun
 ```
-This will build the application and run it on `localhost:10000`. If you're only interested in the back-end API and want to check how to use it, refer to controller integration tests for usage examples. You can find them [here](server/src/test/java/com/edd/chat/).
+This will build the application and run it on `localhost:10000`. 
+
+If you're only interested in the back-end API and want to check how to use it, refer to controller integration tests for usage examples. You can find them [here](server/src/test/java/com/edd/chat/).
 
 ## Front-end
 todo
