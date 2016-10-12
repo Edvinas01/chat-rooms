@@ -4,5 +4,14 @@ Spring Boot chat application which uses jwt's to authenticate users.
 ## Setup
 Make sure Java 8 and MongoDB is installed and don't foget to set MongoDB connection string in the [applicaion.yml](server/src/main/resources/application.yml) configuration file accordingly to your MongoDB setup.
 
-## Running back-end
-Navigate to `server` directory and run `./gradlew bootRun`. This will build the Spring Boot application and start it on `10000` port.
+## Back-end
+First navigate to the [server](server) directory and run
+```
+./gradlew bootRun
+```
+This will build the application and run it on `localhost:10000`. 
+
+If you're only interested in the back-end API and want to check how to use it, refer to controller integration tests for usage examples. You can find them [here](server/src/test/java/com/edd/chat/).
+
+## Front-end
+todo
