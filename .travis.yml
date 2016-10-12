@@ -33,5 +33,5 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: edvinas108@gmail.com
     build_command_prepend: "./gradlew clean"
-    build_command: "./gradlew build"
+    build_command: "./gradlew build -x test"
     branch_pattern: coverity_scan
