@@ -1,6 +1,7 @@
 package com.edd.chat.token;
 
 import com.edd.chat.account.Account;
+import com.edd.chat.exception.ChatException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -85,10 +87,11 @@ public class TokenHandler {
                     .parseClaimsJws(token)
                     .getBody();
 
-            DecodedToken decodedToken = new DecodedToken(claims.getSubject(),
-                    UUID.fromString(claims.get(VERSION, String.class)));
+            String version = Optional
+                    .ofNullable(claims.get(VERSION, String.class))
+                    .orElseThrow(() -> new ChatException("Token must include version", HttpStatus.BAD_REQUEST));
 
-            return Optional.of(decodedToken);
+            return Optional.of(new DecodedToken(claims.getSubject(), UUID.fromString(version)));
 
         } catch (JwtException e) {
             LOGGER.error("Could not parse token: {}", token, e);

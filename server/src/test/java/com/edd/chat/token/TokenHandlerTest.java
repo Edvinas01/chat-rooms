@@ -1,6 +1,7 @@
 package com.edd.chat.token;
 
 import com.edd.chat.account.Account;
+import com.edd.chat.exception.ChatException;
 import com.edd.chat.test.AccountFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,5 +42,11 @@ public class TokenHandlerTest {
     @Test
     public void parseUsernameInvalidToken() {
         assertThat(tokenHandler.parse("abc")).isEmpty();
+    }
+
+    @Test(expected = ChatException.class)
+    public void parseTokenWithoutVersion() {
+        account.setTokenVersion(null);
+        tokenHandler.parse(tokenHandler.createToken(account).getToken());
     }
 }
