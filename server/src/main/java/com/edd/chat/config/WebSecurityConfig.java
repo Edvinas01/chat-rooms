@@ -1,5 +1,6 @@
 package com.edd.chat.config;
 
+import com.edd.chat.account.Account;
 import com.edd.chat.security.TokenAuthenticationEntryPoint;
 import com.edd.chat.security.TokenAuthenticationFilter;
 import com.edd.chat.token.TokenHandler;
@@ -44,10 +45,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
             .authorizeRequests()
-                .antMatchers("/api/v1/accounts/auth") // Authenticate.
+                // Authenticate.
+                .antMatchers("/api/v1/accounts/auth")
                     .permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/accounts") // Register new account.
+                // Register new account.
+                .antMatchers(HttpMethod.POST, "/api/v1/accounts")
                     .permitAll()
+                // Administrate stuff.
+                .antMatchers("/api/v1/admin/**")
+                    .hasAuthority(Account.Role.ROLE_ADMINISTRATOR.name())
                 .anyRequest()
                     .authenticated();
 

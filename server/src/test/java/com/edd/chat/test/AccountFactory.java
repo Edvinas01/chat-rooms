@@ -57,6 +57,17 @@ public class AccountFactory {
     }
 
     /**
+     * Register a valid administrator test account with username of {@value USERNAME} and password {@value PASSWORD}.
+     *
+     * @return registered administrator account.
+     */
+    public Account registerAdmin() {
+        Account account = register();
+        account.setRole(Account.Role.ROLE_ADMINISTRATOR);
+        return accountRepository.save(account);
+    }
+
+    /**
      * Create a test account with username of {@value USERNAME} and password {@value PASSWORD}. Note that the password
      * is not encoded.
      *
@@ -118,6 +129,7 @@ public class AccountFactory {
 
             // account.setEnabled(enabled);
             account.setTokenVersion(tokenVersion);
+            account.setEnabled(enabled);
             account.setRole(role);
             return account;
         }

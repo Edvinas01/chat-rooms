@@ -72,6 +72,7 @@ public class AccountControllerIntegrationTest {
             .statusCode(HttpStatus.OK.value())
             .body("id", is(account.getId()))
             .body("role", is(account.getRole().name()))
+            .body("enabled", is(account.isEnabled()))
             .body("username", is(account.getUsername()));
         //@formatter:on
     }
@@ -131,6 +132,7 @@ public class AccountControllerIntegrationTest {
             .body("id", isA(String.class))
             .body("username", is(username))
             .body("password", nullValue())
+            .body("enabled", is(false))
             .body("role", is(Account.Role.ROLE_USER.name()));
         //@formatter:on
     }
