@@ -51,8 +51,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     })
                     // If token is parsed and such user exists, create authentication.
                     .ifPresent(u -> {
-                        // todo need mechanism to enable/disable accounts.
-                        if (!u.isEnabled()) {
+                        if (!u.isEnabled()) { // todo test for this, also error is in wrong format
                             return;
                         }
                         UsernamePasswordAuthenticationToken authentication =

@@ -87,6 +87,23 @@ public class ChannelService {
     }
 
     /**
+     * Delete channel by id.
+     *
+     * @param id channel id.
+     */
+    public void deleteChannel(String id) {
+        Channel channel = getChannel(id);
+        if (mainChannel.equals(channel.getName())) {
+            throw new ChatException("Cannot delete main channel", HttpStatus.BAD_REQUEST);
+        }
+
+        LOGGER.debug("Deleting channel with id: {}, name: {}",
+                channel.getId(), channel.getName());
+
+        channelRepository.delete(id);
+    }
+
+    /**
      * Get all channels.
      *
      * @return list of channels.

@@ -1,5 +1,6 @@
 package com.edd.chat.admin.account;
 
+import com.edd.chat.account.AccountLookup;
 import com.edd.chat.account.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +13,19 @@ import java.util.stream.Collectors;
 public class AccountManagementController {
 
     private final AccountManagementService managementService;
+    private final AccountLookup accountLookup;
 
     @Autowired
-    public AccountManagementController(AccountManagementService managementService) {
+    public AccountManagementController(AccountManagementService managementService,
+                                       AccountLookup accountLookup) {
+
         this.managementService = managementService;
+        this.accountLookup = accountLookup;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<AccountModel> getAccounts() {
-        return managementService.getAccounts()
+        return accountLookup.getAccounts()
                 .stream()
                 .map(AccountModel::create)
                 .collect(Collectors.toList());
@@ -28,7 +33,7 @@ public class AccountManagementController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public AccountModel getAccount(@PathVariable String id) {
-        return AccountModel.create(managementService.getAccount(id));
+        return AccountModel.create(accountLookup.getAccount(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)

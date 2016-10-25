@@ -32,6 +32,10 @@ public final class ChannelModel {
         return commentCount;
     }
 
+    public Channel toChannel() {
+        return new Channel(name);
+    }
+
     public static ChannelModel create(Channel channel) {
         return new ChannelModel(channel.getId(),
                 channel.getName(),
