@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Header from './Header';
 import Footer from '../Footer/Footer';
 import s from './Layout.css';
+// import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 
 class Layout extends React.Component {
 
