@@ -72,6 +72,7 @@ public class AccountControllerIntegrationTest {
             .statusCode(HttpStatus.OK.value())
             .body("id", is(account.getId()))
             .body("role", is(account.getRole().name()))
+            .body("enabled", is(account.isEnabled()))
             .body("username", is(account.getUsername()));
         //@formatter:on
     }
@@ -81,6 +82,24 @@ public class AccountControllerIntegrationTest {
         //@formatter:off
         get()
             .then()
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
+            .body("error", isA(String.class));
+        //@formatter:on
+    }
+
+    @Test
+    public void getProfileDetailsDisabledAccount() throws Exception {
+        account.setEnabled(false);
+        accountRepository.save(account);
+
+        String token = tokenHandler.createToken(account)
+                .getToken();
+
+        //@formatter:off
+        given()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+            .get()
+        .then()
             .statusCode(HttpStatus.UNAUTHORIZED.value())
             .body("error", isA(String.class));
         //@formatter:on
@@ -131,6 +150,7 @@ public class AccountControllerIntegrationTest {
             .body("id", isA(String.class))
             .body("username", is(username))
             .body("password", nullValue())
+            .body("enabled", is(false))
             .body("role", is(Account.Role.ROLE_USER.name()));
         //@formatter:on
     }

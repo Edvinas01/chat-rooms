@@ -62,6 +62,10 @@ public class Account implements UserDetails {
         this.tokenVersion = tokenVersion;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean isEnabled() {
         return enabled;

@@ -1,6 +1,6 @@
 package com.edd.chat.config;
 
-import com.edd.chat.security.TokenAuthenticationEntryPoint;
+import com.edd.chat.account.Account;
 import com.edd.chat.security.TokenAuthenticationFilter;
 import com.edd.chat.token.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -24,7 +26,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private TokenAuthenticationEntryPoint entryPoint;
+    private AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -37,17 +42,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http.csrf()
                 .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(entryPoint)
+            .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
                 .and()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
             .authorizeRequests()
-                .antMatchers("/api/v1/accounts/auth") // Authenticate.
+                // Authenticate.
+                .antMatchers("/api/v1/accounts/auth")
                     .permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/accounts") // Register new account.
+                // Register new account.
+                .antMatchers(HttpMethod.POST, "/api/v1/accounts")
                     .permitAll()
+                // Administrate stuff.
+                .antMatchers("/api/v1/admin/**")
+                    .hasAuthority(Account.Role.ROLE_ADMINISTRATOR.name())
                 .anyRequest()
                     .authenticated();
 

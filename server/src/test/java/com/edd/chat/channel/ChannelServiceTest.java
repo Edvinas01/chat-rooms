@@ -19,6 +19,8 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -141,6 +143,23 @@ public class ChannelServiceTest {
                 .isExactlyInstanceOf(ChatException.class);
 
         assertThatThrownBy(() -> service.getComments(MAIN_CHANNEL_ID, MAX_COMMENTS + 1))
+                .isExactlyInstanceOf(ChatException.class);
+    }
+
+    @Test
+    public void deleteChannel() {
+        String id = MAIN_CHANNEL_ID + "other";
+
+        when(channelRepository.findOne(id))
+                .thenReturn(new Channel(""));
+
+        service.deleteChannel(id);
+        verify(channelRepository, times(1)).delete(id);
+    }
+
+    @Test
+    public void deleteMainChannel() {
+        assertThatThrownBy(() -> service.deleteChannel(MAIN_CHANNEL_ID))
                 .isExactlyInstanceOf(ChatException.class);
     }
 }

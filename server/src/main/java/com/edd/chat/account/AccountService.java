@@ -11,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AccountService {
+public class AccountService implements AccountLookup {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
 
@@ -82,5 +84,16 @@ public class AccountService {
         Account account = getAccount();
         account.setTokenVersion(UUID.randomUUID());
         accountRepository.save(account);
+    }
+
+    @Override
+    public List<Account> getAccounts() {
+        return accountRepository.findAll();
+    }
+
+    @Override
+    public Account getAccount(String id) {
+        return Optional.ofNullable(accountRepository.findOne(id))
+                .orElseThrow(() -> new ChatException("Account does not exist", HttpStatus.NOT_FOUND));
     }
 }

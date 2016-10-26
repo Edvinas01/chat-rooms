@@ -13,16 +13,20 @@ public final class AccountModel {
 
     private final Account.Role role;
 
+    private final boolean enabled;
+
     @JsonCreator
     private AccountModel(@JsonProperty("username") String username,
                          @JsonProperty("password") String password,
                          @JsonProperty("id") String id,
-                         @JsonProperty("role") Account.Role role) {
+                         @JsonProperty("role") Account.Role role,
+                         @JsonProperty("enabled") boolean enabled) {
 
         this.username = username;
         this.password = password;
         this.id = id;
         this.role = role;
+        this.enabled = enabled;
     }
 
     public String getUsername() {
@@ -41,9 +45,14 @@ public final class AccountModel {
         return id;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public Account toAccount() {
         Account account = new Account(username, password, null);
         account.setRole(role);
+        account.setEnabled(enabled);
         return account;
     }
 
@@ -51,6 +60,7 @@ public final class AccountModel {
         return new AccountModel(account.getUsername(),
                 account.getPassword(),
                 account.getId(),
-                account.getRole());
+                account.getRole(),
+                account.isEnabled());
     }
 }
