@@ -98,7 +98,7 @@ public class AccountManagementControllerIntegrationTest {
         given()
             .body(json.toString())
         .when()
-            .post("/{id}", other.getId())
+            .put("/{id}", other.getId())
         .then()
             .statusCode(HttpStatus.OK.value())
             .body("id", is(other.getId()))

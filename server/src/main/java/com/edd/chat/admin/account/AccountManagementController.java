@@ -36,7 +36,7 @@ public class AccountManagementController {
         return AccountModel.create(accountLookup.getAccount(id));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public AccountModel update(@PathVariable String id,
                                @RequestBody AccountManagementDetails details) {
 
