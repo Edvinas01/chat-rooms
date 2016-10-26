@@ -88,6 +88,24 @@ public class AccountControllerIntegrationTest {
     }
 
     @Test
+    public void getProfileDetailsDisabledAccount() throws Exception {
+        account.setEnabled(false);
+        accountRepository.save(account);
+
+        String token = tokenHandler.createToken(account)
+                .getToken();
+
+        //@formatter:off
+        given()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+            .get()
+        .then()
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
+            .body("error", isA(String.class));
+        //@formatter:on
+    }
+
+    @Test
     public void authenticateSuccessfully() throws Exception {
         JSONObject json = new JSONObject();
         json.put("username", account.getUsername());

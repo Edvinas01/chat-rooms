@@ -61,6 +61,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     });
 
         } catch (UsernameNotFoundException ignored) {
+            System.err.println("");
         }
 
         filterChain.doFilter(request, response);
