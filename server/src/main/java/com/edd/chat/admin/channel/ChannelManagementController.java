@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/admin/channels")
-public class ChannelManagementController { // todo tests for this bad boy
+public class ChannelManagementController {
 
     private final ChannelService channelService;
 
@@ -17,16 +17,16 @@ public class ChannelManagementController { // todo tests for this bad boy
         this.channelService = channelService;
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteChannel(@PathVariable String id) {
-        channelService.deleteChannel(id);
-    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     public ChannelModel createChannel(@RequestBody ChannelModel channel) {
         return ChannelModel.create(channelService
                 .createChannel(channel.getName()));
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteChannel(@PathVariable String id) {
+        channelService.deleteChannel(id);
     }
 }
