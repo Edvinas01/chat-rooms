@@ -3,6 +3,7 @@ package com.edd.chat.security;
 import com.edd.chat.account.Account;
 import com.edd.chat.exception.ChatException;
 import com.edd.chat.test.AccountFactory;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
