@@ -23,7 +23,7 @@ public class Comment {
     }
 
     public Date getSentOn() {
-        return sentOn;
+        return new Date(sentOn.getTime());
     }
 
     public Account getAccount() {

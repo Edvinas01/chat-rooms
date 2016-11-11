@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public class AccountService implements AccountLookup {
         }
 
         String username = details.getUsername().trim();
-        String internalUsername = username.toLowerCase();
+        String internalUsername = username.toLowerCase(Locale.getDefault());
 
         Account account = new Account(
                 username,

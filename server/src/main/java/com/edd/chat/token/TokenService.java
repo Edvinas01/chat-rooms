@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 /**
  * Creates authentication tokens for accounts.
  */
@@ -49,7 +51,7 @@ public class TokenService {
         String username = credentials
                 .getUsername()
                 .trim()
-                .toLowerCase();
+                .toLowerCase(Locale.getDefault());
 
         Account account = accountRepository
                 .findByInternalUsername(username)

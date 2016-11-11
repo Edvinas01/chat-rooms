@@ -34,7 +34,7 @@ public final class CommentModel {
     }
 
     public Date getSentOn() {
-        return sentOn;
+        return new Date(sentOn.getTime());
     }
 
     public static CommentModel create(Comment comment) {
