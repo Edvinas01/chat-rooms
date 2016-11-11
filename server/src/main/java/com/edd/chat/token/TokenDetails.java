@@ -18,7 +18,7 @@ public final class TokenDetails {
                         @JsonProperty("expires") Date expires) {
 
         this.token = token;
-        this.expires = expires;
+        this.expires = new Date(expires.getTime());
     }
 
     public String getToken() {
@@ -26,6 +26,6 @@ public final class TokenDetails {
     }
 
     public Date getExpires() {
-        return expires;
+        return new Date(expires.getTime());
     }
 }
