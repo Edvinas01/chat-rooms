@@ -2,7 +2,7 @@
 Spring Boot chat application which uses jwt's to authenticate users.
 
 ## Setup
-Make sure Java 8 and MongoDB is installed and don't foget to set MongoDB connection string in the [applicaion.yml](server/src/main/resources/application.yml) configuration file accordingly to your MongoDB setup.
+Make sure Java 8 and MongoDB are installed and don't forget to set MongoDB connection string in the [application.yml](server/src/main/resources/application.yml) configuration file accordingly to your MongoDB setup.
 
 ## Back-end
 First navigate to the [server](server) directory and run
