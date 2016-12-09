@@ -42,6 +42,7 @@ public class TokenServiceTest {
         Account account = AccountFactory
                 .create(USERNAME)
                 .password(encodedPassword)
+                .enabled()
                 .build();
 
         service = new TokenService(accountRepository,
