@@ -14,4 +14,7 @@ This will build the application and run it on `localhost:10000`.
 If you're only interested in the back-end API and want to check how to use it, refer to controller integration tests for usage examples. You can find them [here](server/src/test/java/com/edd/chat/).
 
 ## Front-end
-todo
+To run the front-end client first make sure you have installed [Node.js](https://nodejs.org/en/). Then navigate to [client](client) directory and run
+```
+npm start run
+```
