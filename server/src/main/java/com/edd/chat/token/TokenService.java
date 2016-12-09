@@ -55,6 +55,7 @@ public class TokenService {
 
         Account account = accountRepository
                 .findByInternalUsername(username)
+                .filter(Account::isEnabled)
                 .orElseThrow(() -> new ChatException("Invalid credentials", HttpStatus.UNAUTHORIZED));
 
         if (!passwordEncoder.matches(credentials.getPassword(),

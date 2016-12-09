@@ -66,7 +66,7 @@ public class AccountService implements AccountLookup {
 
         account.setRole(Account.Role.ROLE_USER);
 
-        LOGGER.debug("Registering new account with username: {}", internalUsername);
+        LOGGER.debug("Registering new account, username: {}", internalUsername);
 
         try {
             return accountRepository.save(account);
@@ -84,6 +84,8 @@ public class AccountService implements AccountLookup {
     public void logout() {
         Account account = getAccount();
         account.setTokenVersion(UUID.randomUUID());
+
+        LOGGER.debug("Invalidating token for account: {}", account.getInternalUsername());
         accountRepository.save(account);
     }
 

@@ -1,0 +1,11 @@
+.input-group {
+    margin-bottom: 10px;
+}
+
+.login-wrapper {
+    margin-top: 25%;
+}
+
+input:invalid {
+    box-shadow: none;
+}
