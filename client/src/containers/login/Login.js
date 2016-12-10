@@ -20,7 +20,7 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.loggedIn) {
+        if (nextProps.loggedIn && this.props.loggingIn) {
             try {
                 const redirect = this.props.location.query.redirect;
                 this.context.router.replace(redirect);
@@ -118,7 +118,7 @@ function mapStateToProps(state) {
     const {login} = state;
 
     if (login) {
-        return {loggedIn: login.loggedIn, error: login.error};
+        return {loggedIn: login.loggedIn, error: login.error, loggingIn: login.loggingIn};
     }
     return {loggedIn: false};
 }

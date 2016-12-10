@@ -9,15 +9,11 @@ import './app.css';
 class App extends Component {
 
     componentDidMount() {
-        // if (this.props.loggedIn && !this.props.user) {
         this.props.dispatch(loadProfile(this.props));
-        // }
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (nextProps.loggedIn && !nextProps.loadingProfile && !nextProps.user) {
         this.props.dispatch(loadProfile(nextProps));
-        // }
     }
 
     handleLogout() {

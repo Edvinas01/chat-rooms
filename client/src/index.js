@@ -20,6 +20,7 @@ import RestrictPage from './containers/misc/RestrictPage';
 import NotFound from './containers/misc/NotFound';
 
 import Register from './containers/register/Register';
+import Users from './containers/users/Users';
 import Login from './containers/login/Login';
 import About from './containers/about/About';
 import Home from './containers/home/Home';
@@ -37,7 +38,9 @@ ReactDOM.render(
                 <Route path="/register" component={Register}/>
                 <Route path="/about" component={About}/>
                 <Route path="/login" component={Login}/>
-                <Route component={RestrictPage}/>
+                <Route component={RestrictPage}>
+                    <Route path="/users" component={Users}/>
+                </Route>
                 <Route path="*" component={NotFound}/>
             </Route>
         </Router>

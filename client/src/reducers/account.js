@@ -17,7 +17,12 @@ export default function account(state = initializeState(), action = {}) {
         case LOAD_PROFILE_REQUEST:
             return Object.assign({}, state, {loading: true});
         case LOAD_PROFILE_SUCCESS:
-            return Object.assign({}, state, {user: action.user, loading: false});
+            const user = action.user;
+            user.admin = user.role === 'ROLE_ADMINISTRATOR';
+
+            return Object.assign({}, state, {
+                user: user, loading: false
+            });
         case LOAD_PROFILE_FAILURE:
             return Object.assign({}, state, {user: null, loading: false});
         case LOGOUT_SUCCESS:

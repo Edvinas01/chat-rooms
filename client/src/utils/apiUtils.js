@@ -15,7 +15,7 @@ export const TOKEN = 'token';
  */
 export function request(url, config = {}, request, onSuccess, onFailure) {
     return dispatch => {
-        if (typeof request === 'object') {
+        if (request) {
             dispatch(request);
         }
 

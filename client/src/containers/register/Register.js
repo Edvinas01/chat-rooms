@@ -31,8 +31,8 @@ class Register extends Component {
     handleRegister(event) {
         event.preventDefault();
         const {username, password, repeatPassword} = this.state;
-
-        if (password != repeatPassword) {
+        
+        if (password !== repeatPassword) {
             this.props.dispatch(registerFailureMessage('Passwords do not match'));
         } else {
             this.props.dispatch(register(username, password));

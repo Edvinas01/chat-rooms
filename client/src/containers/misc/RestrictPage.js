@@ -1,14 +1,20 @@
 import {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
+import {
+    loginError
+} from '../../actions/account'
+
 class RestrictPage extends Component {
-    componentWillMount() {
-        const {user} = this.props;
+
+    componentDidUpdate() {
+        const {user, loading} = this.props;
         const {router} = this.context;
 
-        // If this page is restricted, go to loginPage first.
-        // (But pass on this page's path in order to redirect back upon login)
-        if (!user) {
+        // If account is not loading or account is not admin, redirect.
+        if ((!loading && !user) || (user && !user.admin)) {
+            this.props.dispatch(loginError('Insufficient rights, please login to administrator account'));
+
             const path = this.props.location.pathname;
             router.push(`/login?redirect=${path}`);
         }
@@ -24,7 +30,7 @@ class RestrictPage extends Component {
 }
 
 RestrictPage.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.object,
     children: PropTypes.object,
     location: PropTypes.object
 };
@@ -34,7 +40,7 @@ RestrictPage.contextTypes = {
 };
 
 function mapStateToProps(state) {
-    return {user: state.auth.user};
+    return {user: state.account.user, loading: state.account.loading};
 }
 
 export default connect(mapStateToProps)(RestrictPage);

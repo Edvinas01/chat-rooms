@@ -18,7 +18,6 @@ export default function login(state = initializeState(), action) {
         case REGISTER_REQUEST:
             return Object.assign({}, state, {registering: true});
         case REGISTER_SUCCESS:
-            console.log(action);
             return Object.assign({}, state, {registering: false, error: null, user: action.profile});
         case REGISTER_FAILURE:
             return Object.assign({}, state, {registering: false, error: action.error});

@@ -4,12 +4,14 @@ import createLogger from 'redux-logger';
 
 import register from '../reducers/register';
 import account from '../reducers/account';
+import users from '../reducers/users';
 import login from '../reducers/login';
 
 const logger = createLogger();
 const rootReducer = combineReducers({
         register,
         account,
+        users,
         login
     }
 );

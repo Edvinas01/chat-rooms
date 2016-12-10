@@ -3,27 +3,6 @@ import {Link, IndexLink} from 'react-router';
 import './sidebar.css';
 
 class Sidebar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            chatRooms: [
-                {
-                    name: 'Cool room',
-                    id: 1
-                },
-                {
-                    name: 'Bad room',
-                    id: 2
-                },
-                {
-                    name: 'Other room',
-                    id: 3
-                }
-            ]
-        }
-    }
-
     render() {
         const {user} = this.props;
         const pathname = this.props.location.pathname;
@@ -31,20 +10,21 @@ class Sidebar extends Component {
         const home = pathname === '/';
         const about = pathname.indexOf('about') > -1;
         const login = pathname.indexOf('login') > -1;
+        const users = pathname.indexOf('users') > -1;
 
-        const chatRooms = this.state.chatRooms.map(room => {
-            return (
-                <li key={room.name}>
-                    <Link to={'/rooms/' + room.id} className="nav-link">
-                        <i className="fa fa-chevron-right fa-sm"/>
-                        <i className="fa fa-book fa-lg"/> {room.name}
-                    </Link>
-                </li>
-            )
-        });
+        const userMenu = users;
 
         const profileDetails = user ? (
-            <ul className="sub-menu collapse" id="user">
+            <ul className={`sub-menu collapse ${userMenu ? 'in' : ''}`} id="user">
+                {
+                    user.admin &&
+                    <li>
+                        <Link to="/users" className={`nav-link ${users ? 'active': ''}`}>
+                            <i className="fa fa-chevron-right fa-sm"/>
+                            <i className="fa fa-users fa-lg"/> Users
+                        </Link>
+                    </li>
+                }
                 <li>
                     <a className="nav-link" onClick={this.props.handleLogout}>
                         <i className="fa fa-chevron-right fa-sm"/>
@@ -81,7 +61,7 @@ class Sidebar extends Component {
 
                         {
                             user &&
-                            <li data-toggle="collapse" data-target="#user" className="collapsed">
+                            <li data-toggle="collapse" data-target="#user" className={userMenu ? 'out' : 'collapsed'}>
                                 <a href="#">
                                     <i className="fa fa-user fa-lg"/> {user.username}
                                     <span className="arrow"/>
@@ -89,17 +69,6 @@ class Sidebar extends Component {
                             </li>
                         }
                         {profileDetails}
-
-                        <li data-toggle="collapse" data-target="#new" className="collapsed">
-                            <a href="#">
-                                <i className="fa fa-envelope fa-lg"/> Chat
-                                <span className="arrow"/>
-                            </a>
-                        </li>
-
-                        <ul className="sub-menu collapse" id="new">
-                            {chatRooms}
-                        </ul>
                     </ul>
                 </div>
             </div>

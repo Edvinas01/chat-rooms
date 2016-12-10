@@ -5,12 +5,6 @@ import {
     TOKEN
 } from '../utils/apiUtils';
 
-// todo
-// CLEANUP TIME
-// 1. Create register page
-// 2. Cleanup the crap
-// 3. upload to git
-
 export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST';
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS';
 export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE';
@@ -87,6 +81,15 @@ export function login(username, password) {
         loginRequest(),
         loginSuccess,
         loginFailure);
+}
+
+/**
+ * Action which sends a login error message.
+ */
+export function loginError(message) {
+    return loginFailure({
+        message: message
+    });
 }
 
 function loginRequest() {
