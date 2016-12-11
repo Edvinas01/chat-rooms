@@ -1,6 +1,6 @@
 {
   "name": "chat-rooms",
-  "homepage": "https://github.com/Edvinas01/chat-rooms",
+  "homepage": "/",
   "version": "1.0.0",
   "description": "Chat application which uses JWT for authentication",
   "repository": {
