@@ -23,10 +23,9 @@ import Register from './containers/register/Register';
 import Users from './containers/users/Users';
 import Login from './containers/login/Login';
 import About from './containers/about/About';
+import Chat from './containers/chat/Chat';
 import Home from './containers/home/Home';
 import App from './containers/app/App';
-
-import './index.css';
 
 const store = configureStore();
 
@@ -36,6 +35,7 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={Home}/>
                 <Route path="/register" component={Register}/>
+                <Route path="/channels/:id" component={Chat}/>
                 <Route path="/about" component={About}/>
                 <Route path="/login" component={Login}/>
                 <Route component={RestrictPage}>

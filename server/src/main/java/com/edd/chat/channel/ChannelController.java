@@ -19,6 +19,11 @@ public class ChannelController {
         this.channelService = channelService;
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ChannelModel getChannel(@PathVariable String id) {
+        return ChannelModel.create(channelService.getChannel(id));
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<ChannelModel> getChannels() {
         return channelService.getChannels()

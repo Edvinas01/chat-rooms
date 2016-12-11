@@ -4,6 +4,8 @@ import createLogger from 'redux-logger';
 
 import register from '../reducers/register';
 import account from '../reducers/account';
+import channels from '../reducers/channels';
+import channel from '../reducers/channel';
 import users from '../reducers/users';
 import login from '../reducers/login';
 
@@ -11,6 +13,8 @@ const logger = createLogger();
 const rootReducer = combineReducers({
         register,
         account,
+        channels,
+        channel,
         users,
         login
     }

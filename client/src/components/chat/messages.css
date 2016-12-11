@@ -1,0 +1,21 @@
+.chat-box {
+    max-height: 70vh;
+    min-height: 70vh;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.message-heading {
+    font-style: italic;
+}
+
+.chat-border {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+.comment-text {
+    white-space: pre;
+}
