@@ -4,6 +4,10 @@ import {
     LOAD_USERS_FAILURE
 } from '../actions/users';
 
+import {
+    LOGOUT_SUCCESS
+} from '../actions/account';
+
 function initializeState() {
     return Object.assign({}, {
         loading: false,
@@ -19,6 +23,8 @@ export default function users(state = initializeState(), action = {}) {
             return {...state, users: action.users, loading: false};
         case LOAD_USERS_FAILURE:
             return {...state, error: action.error, loading: false};
+        case LOGOUT_SUCCESS:
+            return {...state, users: [], error: null};
         default:
             return state;
     }

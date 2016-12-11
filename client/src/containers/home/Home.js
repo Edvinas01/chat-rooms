@@ -27,7 +27,18 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(loadChannels());
+        const {user} = this.props;
+
+        if (user) {
+            this.props.dispatch(loadChannels());
+        }
+    }
+
+    componentDidUpdate() {
+        const {user, channels} = this.props;
+        if (user && channels.length === 0) {
+            this.props.dispatch(loadChannels());
+        }
     }
 
     deleteChannel(id) {
@@ -54,11 +65,11 @@ class Home extends Component {
     render() {
         const {channels, user, error} = this.props;
 
-        const channelOptions = channels.map((channel) => {
-            return (
-                <ChannelInfo key={channel.id} channel={channel} user={user} deleteChannel={this.deleteChannel}/>
-            )
-        });
+        const channelOptions = user && channels.map((channel) => {
+                return (
+                    <ChannelInfo key={channel.id} channel={channel} user={user} deleteChannel={this.deleteChannel}/>
+                )
+            });
 
         const rooms = user ? (
             <div>

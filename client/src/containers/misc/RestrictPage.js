@@ -7,16 +7,39 @@ import {
 
 class RestrictPage extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.redirect = this.redirect.bind(this);
+    }
+
+    redirect(home) {
+        const {router} = this.context;
+
+        this.props.dispatch(loginError('Insufficient rights, please login to administrator account'));
+
+        const path = this.props.location.pathname;
+        if (home) {
+            router.push('/login?redirect=/');
+        } else {
+            router.push(`/login?redirect=${path}`);
+        }
+    }
+
+    componentDidMount() {
+        const {user} = this.props;
+
+        if (user && !user.admin) {
+            this.redirect(true);
+        }
+    }
+
     componentDidUpdate() {
         const {user, loading} = this.props;
-        const {router} = this.context;
 
         // If account is not loading or account is not admin, redirect.
         if ((!loading && !user) || (user && !user.admin)) {
-            this.props.dispatch(loginError('Insufficient rights, please login to administrator account'));
-
-            const path = this.props.location.pathname;
-            router.push(`/login?redirect=${path}`);
+            this.redirect();
         }
     }
 

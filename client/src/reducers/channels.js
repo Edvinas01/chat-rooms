@@ -5,6 +5,10 @@ import {
     CREATE_CHANNEL_FAILURE
 } from '../actions/channel';
 
+import {
+    LOGOUT_SUCCESS
+} from '../actions/account';
+
 function initializeState() {
     return Object.assign({}, {
         error: null,
@@ -36,6 +40,12 @@ export default function channels(state = initializeState(), action = {}) {
             return {
                 ...state,
                 error: action.error
+            };
+        case LOGOUT_SUCCESS:
+            const initial = initializeState();
+            return {
+                ...state,
+                initial
             };
         default:
             return state;
