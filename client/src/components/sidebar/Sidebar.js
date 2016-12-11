@@ -28,14 +28,14 @@ class Sidebar extends Component {
                 <li>
                     <a className="nav-link" onClick={this.props.handleLogout}>
                         <i className="fa fa-chevron-right fa-sm"/>
-                        <i className="fa fa-book fa-lg"/> Logout
+                        <i className="fa fa-lock fa-lg"/> Logout
                     </a>
                 </li>
             </ul>
         ) : (
             <li className={login ? 'active' : ''}>
                 <Link to="/login" className="nav-link">
-                    <i className="fa fa-book fa-lg"/> Login
+                    <i className="fa fa-unlock fa-lg"/> Login
                 </Link>
             </li>
         );
